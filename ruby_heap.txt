@@ -1,0 +1,69 @@
+
+class Heap
+    attr_accessor :elements
+    def initialize()
+        @elements = Array.new
+    end
+    
+    def bubble_up()
+        k = @elements.length - 1
+        while k >= 1 
+        parent = (k - 1)/2
+        if @elements[parent] < @elements[k]
+            temp = @elements[parent]
+            @elements[parent] = @elements[k]
+            @elements[k] = temp
+            k = parent
+        else
+            break
+        end
+        end
+    end
+    
+    def sink_down()
+        k = 0
+        while k < @elements.length
+            child = 2*k + 1
+            biggest = k
+            if child < @elements.length && @elements[child] > @elements[biggest]
+                biggest = child
+            end
+            child = 2*k + 2
+            if child < @elements.length && @elements[child] > @elements[biggest]
+                biggest = child
+            end
+            if biggest == k
+                break
+            else
+                temp = @elements[biggest]
+                @elements[biggest] = @elements[k]
+                @elements[k] = temp
+                k = biggest
+            end
+        end
+    end
+            
+    def push(x)
+        @elements << x
+        bubble_up
+    end
+    def pop()
+        if !@elements.empty?
+            result = @elements.first
+            @elements[0] = @elements.last
+            @elements.pop
+            sink_down
+            return result
+        end
+        return nil
+    end
+end
+
+heap = Heap.new
+heap.push(1);heap.push(2);heap.push(3);heap.push(23);heap.push(12);heap.push(7);
+#puts heap.elements
+puts heap.pop()
+#puts heap.elements
+puts heap.pop()
+puts heap.pop()
+#puts heap.elements
